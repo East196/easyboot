@@ -13,17 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.east196.ezsb.hbase;
-
-import com.google.common.base.Charsets;
-import org.apache.commons.lang3.Validate;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.client.*;
+package org.springframework.data.hadoop.hbase;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.apache.commons.lang3.Validate;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.client.Delete;
+import org.apache.hadoop.hbase.client.Get;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.Table;
+
+import com.google.common.base.Charsets;
+import com.google.common.collect.Table.Cell;
 
 public class HbaseTemplate implements HbaseOperations {
 
@@ -88,9 +96,15 @@ public class HbaseTemplate implements HbaseOperations {
 
 	@Override
 	public <T> T find(String tableName, final Scan scan, final ResultsExtractor<T> action) {
-		return execute(tableName, htable -> {
-			try (ResultScanner scanner = htable.getScanner(scan)) {
-				return action.extractData(scanner);
+		return execute(tableName, new TableCallback<T>() {
+			@Override
+			public T doInTable(Table htable) throws Throwable {
+				ResultScanner scanner = htable.getScanner(scan);
+				try {
+					return action.extractData(scanner);
+				} finally {
+					scanner.close();
+				}
 			}
 		});
 	}
@@ -127,48 +141,84 @@ public class HbaseTemplate implements HbaseOperations {
 	@Override
 	public <T> T get(String tableName, final String rowName, final String familyName, final String qualifier,
 			final RowMapper<T> mapper) {
-		return execute(tableName, table -> {
-			Get get = new Get(rowName.getBytes(Charsets.UTF_8));
-			if (familyName != null) {
-				byte[] family = familyName.getBytes(Charsets.UTF_8);
+		return execute(tableName, new TableCallback<T>() {
+			@Override
+			public T doInTable(Table htable) throws Throwable {
+				Get get = new Get(rowName.getBytes(Charsets.UTF_8));
+				if (familyName != null) {
+					byte[] family = familyName.getBytes(Charsets.UTF_8);
 
-				if (qualifier != null) {
-					get.addColumn(family, qualifier.getBytes(Charsets.UTF_8));
-				} else {
-					get.addFamily(family);
+					if (qualifier != null) {
+						get.addColumn(family, qualifier.getBytes(Charsets.UTF_8));
+					} else {
+						get.addFamily(family);
+					}
 				}
+				Result result = htable.get(get);
+				return mapper.mapRow(result, 0);
 			}
-			Result result = table.get(get);
-			return mapper.mapRow(result, 0);
 		});
 	}
 
 	@Override
-	public void put(String tableName, final String rowName, final String familyName, final String qualifier, final byte[] value) {
+	public void put(String tableName, final String rowName, final String familyName, final String qualifier,
+			final byte[] value) {
 		Validate.notBlank(rowName);
 		Validate.notBlank(familyName);
 		Validate.notBlank(qualifier);
 		Validate.notNull(value);
-		execute(tableName, table -> {
-			Put put = new Put(rowName.getBytes(Charsets.UTF_8)).addColumn(familyName.getBytes(Charsets.UTF_8), qualifier.getBytes(Charsets.UTF_8), value);
-			table.put(put);
-			return null;
+		execute(tableName, new TableCallback<Object>() {
+			@Override
+			public Object doInTable(Table table) throws Throwable {
+				Put put = new Put(rowName.getBytes(Charsets.UTF_8)).addColumn(familyName.getBytes(Charsets.UTF_8),
+						qualifier.getBytes(Charsets.UTF_8), value);
+				table.put(put);
+				return null;
+			}
 		});
 	}
-	
+
 	@Override
-	public void put(String tableName, final String rowName, final String familyName, final Map<String,byte[]> kvMap) {
+	public void put(String tableName, final String rowName, final String familyName, final Map<String, byte[]> kvMap) {
 		Validate.notBlank(rowName);
 		Validate.notBlank(familyName);
 		Validate.notNull(kvMap);
-		execute(tableName, table -> {
-			Put put = new Put(rowName.getBytes(Charsets.UTF_8));
-			for (Entry<String, byte[]> kv : kvMap.entrySet()) {
-				put.addColumn(familyName.getBytes(Charsets.UTF_8), kv.getKey().getBytes(Charsets.UTF_8), kv.getValue());
+		execute(tableName, new TableCallback<Object>() {
+			@Override
+			public Object doInTable(Table table) throws Throwable {
+				Put put = new Put(rowName.getBytes(Charsets.UTF_8));
+				for (Entry<String, byte[]> kv : kvMap.entrySet()) {
+					put.addColumn(familyName.getBytes(Charsets.UTF_8), kv.getKey().getBytes(Charsets.UTF_8),
+							kv.getValue());
+				}
+				table.put(put);
+				return null;
 			}
-			table.put(put);
-			return null;
 		});
+	}
+
+	@Override
+	public void put(String tableName, final String rowName,
+			final com.google.common.collect.Table<String, String, byte[]> rowFamilyTable) {
+		Validate.notBlank(rowName);
+		Validate.notNull(rowFamilyTable);
+		execute(tableName, new TableCallback<Object>() {
+			@Override
+			public Object doInTable(Table table) throws Throwable {
+				Put put = new Put(rowName.getBytes(Charsets.UTF_8));
+				for (Cell<String, String, byte[]> cell : rowFamilyTable.cellSet()) {
+					put.addColumn(cell.getRowKey().getBytes(Charsets.UTF_8),
+							cell.getColumnKey().getBytes(Charsets.UTF_8), cell.getValue());
+				}
+				table.put(put);
+				return null;
+			}
+		});
+	}
+
+	@Override
+	public void delete(String tableName, final String rowName) {
+		delete(tableName, rowName, null, null);
 	}
 
 	@Override
@@ -179,19 +229,22 @@ public class HbaseTemplate implements HbaseOperations {
 	@Override
 	public void delete(String tableName, final String rowName, final String familyName, final String qualifier) {
 		Validate.notBlank(rowName);
-		Validate.notBlank(familyName);
-		execute(tableName, table -> {
-			Delete delete = new Delete(rowName.getBytes(Charsets.UTF_8));
-			byte[] family = familyName.getBytes(Charsets.UTF_8);
+		execute(tableName, new TableCallback<Object>() {
+			@Override
+			public Object doInTable(Table htable) throws Throwable {
+				Delete delete = new Delete(rowName.getBytes(Charsets.UTF_8));
+				if (familyName != null) {
+					byte[] family = familyName.getBytes(Charsets.UTF_8);
 
-			if (qualifier != null) {
-				delete.addColumn(family, qualifier.getBytes(Charsets.UTF_8));
-			} else {
-				delete.addFamily(family);
+					if (qualifier != null) {
+						delete.addColumn(family, qualifier.getBytes(Charsets.UTF_8));
+					} else {
+						delete.addFamily(family);
+					}
+				}
+				htable.delete(delete);
+				return null;
 			}
-
-			table.delete(delete);
-			return null;
 		});
 	}
 

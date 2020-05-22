@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.east196.ezsb.hbase;
-
-import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.client.ResultScanner;
+package org.springframework.data.hadoop.hbase;
 
 /**
- * Callback for mapping rows of a {@link ResultScanner} on a per-row basis. 
- * Implementations of this interface perform the actual work of mapping each row to a result object, but don't need to worry about exception handling.
+ * HBase Data Access exception.
  * 
  * @author Costin Leau
  */
-public interface RowMapper<T> {
+@SuppressWarnings("serial")
+public class HbaseSystemException extends DataAccessException {
 
-	T mapRow(Result result, int rowNum) throws Exception;
+	public HbaseSystemException(Exception cause) {
+		super(cause.getMessage(), cause);
+	}
 }

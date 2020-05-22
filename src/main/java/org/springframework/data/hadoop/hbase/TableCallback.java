@@ -1,4 +1,4 @@
-package com.github.east196.ezsb.hbase;
+package org.springframework.data.hadoop.hbase;
 
 import org.apache.hadoop.hbase.client.Table;
 

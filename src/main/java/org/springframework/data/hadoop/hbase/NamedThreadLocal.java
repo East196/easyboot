@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.east196.ezsb.hbase;
+package org.springframework.data.hadoop.hbase;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -25,6 +25,7 @@ import com.google.common.base.Strings;
  *
  * @author Juergen Hoeller
  * @since 2.5.2
+ * @see NamedInheritableThreadLocal
  */
 public class NamedThreadLocal<T> extends ThreadLocal<T> {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.east196.ezsb.hbase;
+package org.springframework.data.hadoop.hbase;
 
 /**
  * Handy class for wrapping runtime {@code Exceptions} with a root cause.

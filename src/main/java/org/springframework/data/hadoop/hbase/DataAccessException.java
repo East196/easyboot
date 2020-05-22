@@ -1,4 +1,4 @@
-package com.github.east196.ezsb.hbase;
+package org.springframework.data.hadoop.hbase;
 
 /**
  * Root of the hierarchy of data access exceptions discussed in

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.east196.ezsb.hbase;
+package org.springframework.data.hadoop.hbase;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;

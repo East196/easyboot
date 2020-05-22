@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.east196.ezsb.hbase;
+package org.springframework.data.hadoop.hbase;
 
 /**
  * Helper class for implementing exception classes which are capable of
@@ -28,6 +28,7 @@ package com.github.east196.ezsb.hbase;
  * @see NestedRuntimeException
  * @see NestedCheckedException
  * @see NestedIOException
+ * @see org.springframework.web.util.NestedServletException
  */
 public abstract class NestedExceptionUtils {
 
