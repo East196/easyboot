@@ -53,6 +53,12 @@
 			<artifactId>jedis</artifactId>
 			<version>3.3.0</version>
 		</dependency>
+		
+				<!-- Quartz定时任务 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-quartz</artifactId>
+		</dependency>
 
 
 		<dependency>
