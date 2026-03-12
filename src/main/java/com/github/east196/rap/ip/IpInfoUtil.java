@@ -13,15 +13,17 @@ import com.google.gson.Gson;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
  * @author east196
  */
-@Slf4j
 @Component
 public class IpInfoUtil {
+    
+    private static final Logger log = LoggerFactory.getLogger(IpInfoUtil.class);
 
     @Value("${xboot.mob.appKey}")
     private String appKey;

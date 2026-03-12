@@ -1,6 +1,7 @@
 package com.github.east196.ezsb.mybatis;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.ibatis.binding.MapperMethod.ParamMap;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -21,10 +22,11 @@ import java.util.Properties;
  * @Date  2019-01-19
  *
  */
-@Slf4j
 @Component
 @Intercepts({ @Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }) })
 public class MybatisInterceptor implements Interceptor {
+    
+    private static final Logger log = LoggerFactory.getLogger(MybatisInterceptor.class);
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {

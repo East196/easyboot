@@ -29,7 +29,8 @@ import com.github.east196.rap.log.normal.Log;
 import com.github.east196.rap.log.normal.LogService;
 
 import cn.hutool.core.util.StrUtil;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Spring AOP实现日志管理
@@ -37,8 +38,9 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Aspect
 @Component
-@Slf4j
 public class SystemLogAspect {
+    
+    private static final Logger logger = LoggerFactory.getLogger(SystemLogAspect.class);
 
     private static final ThreadLocal<Date> beginTimeThreadLocal = new NamedThreadLocal<Date>("ThreadLocal beginTime");
 
@@ -159,7 +161,7 @@ public class SystemLogAspect {
                 }
             }
         } catch (Exception e) {
-            log.error("AOP后置通知异常", e);
+            logger.error("AOP后置通知异常", e);
         }
     }
 
