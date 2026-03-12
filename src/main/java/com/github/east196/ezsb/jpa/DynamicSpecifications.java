@@ -8,7 +8,7 @@ import com.google.common.collect.Lists;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
+import jakarta.persistence.criteria.*;
 import java.util.Collection;
 import java.util.List;
 

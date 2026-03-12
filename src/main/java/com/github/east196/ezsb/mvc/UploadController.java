@@ -3,7 +3,7 @@
 //
 //import java.io.FileInputStream;
 //
-//import javax.servlet.http.HttpServletRequest;
+//import jakarta.servlet.http.HttpServletRequest;
 //
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +21,8 @@
 //import com.github.east196.ezboot.web.common.ratelimit.RedisRaterLimiter;
 //
 //import cn.hutool.core.util.StrUtil;
-//import io.swagger.annotations.Api;
-//import io.swagger.annotations.ApiOperation;
+//import io.swagger.v3.oas.annotations.tags.Tag;
+//import io.swagger.v3.oas.annotations.Operation;
 //import lombok.extern.slf4j.Slf4j;
 //
 ///**
@@ -30,7 +30,7 @@
 // */
 //@Slf4j
 //@RestController
-//@Api(description = "文件上传接口")
+//@Tag(name = "文件上传接口")
 //@RequestMapping("/xboot/upload")
 //@Transactional
 //public class UploadController {
@@ -45,7 +45,7 @@
 //    private IpInfoUtil ipInfoUtil;
 //
 //    @RequestMapping(value = "/file",method = RequestMethod.POST)
-//    @ApiOperation(value = "文件上传")
+//    @Operation(summary = "文件上传")
 //    public Result<Object> upload(@RequestParam("file") MultipartFile file,
 //                                 HttpServletRequest request) {
 //

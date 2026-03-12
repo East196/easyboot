@@ -21,8 +21,8 @@ import com.github.east196.rap.log.es.SearchVo;
 import com.github.east196.rap.log.normal.Log;
 import com.github.east196.rap.log.normal.LogService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-@Api(description = "日志管理接口")
+@Tag(name = "日志管理接口")
 @RequestMapping("/xboot/log")
 @Transactional
 public class LogController{
@@ -46,7 +46,7 @@ public class LogController{
     private LogService logService;
 
     @RequestMapping(value = "/getAllByPage",method = RequestMethod.GET)
-    @ApiOperation(value = "分页获取全部")
+    @Operation(summary = "分页获取全部")
     public Result<Object> getAllByPage(@RequestParam(required = false) Integer type,
                                        @RequestParam String key,
                                        @ModelAttribute SearchVo searchVo,
@@ -62,7 +62,7 @@ public class LogController{
     }
 
     @RequestMapping(value = "/delByIds/{ids}",method = RequestMethod.DELETE)
-    @ApiOperation(value = "批量删除")
+    @Operation(summary = "批量删除")
     public Result<Object> delByIds(@PathVariable String[] ids){
 
         for(String id : ids){
@@ -76,7 +76,7 @@ public class LogController{
     }
 
     @RequestMapping(value = "/delAll",method = RequestMethod.DELETE)
-    @ApiOperation(value = "全部删除")
+    @Operation(summary = "全部删除")
     public Result<Object> delAll(){
 
         if(esRecord){

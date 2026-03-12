@@ -1,6 +1,6 @@
 package com.github.east196.rap.ip;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.east196.core.api.Result;
 import com.github.east196.core.api.ResultUtil;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-@Api(description = "IP接口")
+@Tag(name = "IP接口")
 @RequestMapping("/xboot/common/ip")
 @Transactional
 public class IpInfoController {
@@ -29,7 +29,7 @@ public class IpInfoController {
     private IpInfoUtil ipInfoUtil;
 
     @RequestMapping(value = "/info",method = RequestMethod.GET)
-    @ApiOperation(value = "IP及天气相关信息")
+    @Operation(summary = "IP及天气相关信息")
     public Result<Object> upload(HttpServletRequest request) {
 
         String result= ipInfoUtil.getIpWeatherInfo(ipInfoUtil.getIpAddr(request));

@@ -2,15 +2,15 @@ package com.github.east196.rap.log.normal;
 
 import java.util.Map;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.east196.core.boon.Glue;
 import com.github.east196.ezsb.core.BaseEntity;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -20,36 +20,36 @@ import lombok.Data;
 @Entity
 @Table(name = "t_log")
 @TableName("t_log")
-@ApiModel(value = "日志")
+@Schema(description = "日志")
 public class Log extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "方法操作名称")
+    @Schema(description = "方法操作名称")
     private String name;
 
-    @ApiModelProperty(value = "日志类型 0登陆日志 1操作日志")
+    @Schema(description = "日志类型 0登陆日志 1操作日志")
     private Integer logType;
 
-    @ApiModelProperty(value = "请求路径")
+    @Schema(description = "请求路径")
     private String requestUrl;
 
-    @ApiModelProperty(value = "请求类型")
+    @Schema(description = "请求类型")
     private String requestType;
 
-    @ApiModelProperty(value = "请求参数")
+    @Schema(description = "请求参数")
     private String requestParam;
 
-    @ApiModelProperty(value = "请求用户")
+    @Schema(description = "请求用户")
     private String username;
 
-    @ApiModelProperty(value = "ip")
+    @Schema(description = "ip")
     private String ip;
 
-    @ApiModelProperty(value = "ip信息")
+    @Schema(description = "ip信息")
     private String ipInfo;
 
-    @ApiModelProperty(value = "花费时间")
+    @Schema(description = "花费时间")
     private Integer costTime;
 
     /**

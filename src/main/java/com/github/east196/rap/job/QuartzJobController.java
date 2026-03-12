@@ -29,8 +29,8 @@ import com.github.east196.ezsb.core.BootException;
 import com.github.east196.ezsb.core.CommonConstant;
 import com.github.east196.ezsb.mybatis.PageUtil;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-@Api(description = "定时任务管理接口")
+@Tag(name = "定时任务管理接口")
 @RequestMapping("/xboot/quartzJob")
 @Transactional
 public class QuartzJobController {
@@ -50,7 +50,7 @@ public class QuartzJobController {
     private Scheduler scheduler;
 
     @RequestMapping(value = "/getAllByPage",method = RequestMethod.GET)
-    @ApiOperation(value = "获取所有定时任务")
+    @Operation(summary = "获取所有定时任务")
     public Result<Page<QuartzJob>> getAll(@ModelAttribute PageVo page){
 
         Page<QuartzJob> data = quartzJobService.findAll(PageUtil.initPage(page));
@@ -58,7 +58,7 @@ public class QuartzJobController {
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    @ApiOperation(value = "添加定时任务")
+    @Operation(summary = "添加定时任务")
     public Result<Object> addJob(@ModelAttribute QuartzJob job){
 
         List<QuartzJob> list = quartzJobService.findByJobClassName(job.getJobClassName());
@@ -71,7 +71,7 @@ public class QuartzJobController {
     }
 
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
-    @ApiOperation(value = "更新定时任务")
+    @Operation(summary = "更新定时任务")
     public Result<Object> editJob(@ModelAttribute QuartzJob job){
 
         delete(job.getJobClassName());
@@ -82,7 +82,7 @@ public class QuartzJobController {
     }
 
     @RequestMapping(value = "/pause",method = RequestMethod.POST)
-    @ApiOperation(value = "暂停定时任务")
+    @Operation(summary = "暂停定时任务")
     public Result<Object> pauseJob(@ModelAttribute QuartzJob job){
 
         try {
@@ -96,7 +96,7 @@ public class QuartzJobController {
     }
 
     @RequestMapping(value = "/resume",method = RequestMethod.POST)
-    @ApiOperation(value = "恢复定时任务")
+    @Operation(summary = "恢复定时任务")
     public Result<Object> resumeJob(@ModelAttribute QuartzJob job){
 
         try {
@@ -110,7 +110,7 @@ public class QuartzJobController {
     }
 
     @RequestMapping(value = "/delByIds/{ids}",method = RequestMethod.DELETE)
-    @ApiOperation(value = "删除定时任务")
+    @Operation(summary = "删除定时任务")
     public Result<Object> deleteJob(@PathVariable String[] ids){
 
         for(String id:ids){

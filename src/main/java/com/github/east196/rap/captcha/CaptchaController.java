@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.east196.core.api.Result;
 import com.github.east196.core.api.ResultUtil;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * @author east196
  */
-@Api(description = "验证码接口")
+@Tag(name = "验证码接口")
 @RequestMapping("/xboot/common/captcha")
 @RestController
 @Transactional
@@ -33,7 +33,7 @@ public class CaptchaController {
     private StringRedisTemplate redisTemplate;
 
     @RequestMapping(value = "/init",method = RequestMethod.GET)
-    @ApiOperation(value = "初始化验证码")
+    @Operation(summary = "初始化验证码")
     public Result<Object> initCaptcha() {
 
         String captchaId = UUID.randomUUID().toString().replace("-","");
@@ -46,7 +46,7 @@ public class CaptchaController {
     }
 
     @RequestMapping(value = "/draw/{captchaId}", method = RequestMethod.GET)
-    @ApiOperation(value = "根据验证码ID获取图片")
+    @Operation(summary = "根据验证码ID获取图片")
     public void drawCaptcha(@PathVariable("captchaId") String captchaId, HttpServletResponse response) throws IOException {
 
         //得到验证码 生成指定验证码

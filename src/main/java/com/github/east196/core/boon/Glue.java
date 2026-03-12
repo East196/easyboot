@@ -26,7 +26,7 @@ import com.google.gson.Gson;
 import cn.hutool.core.util.StrUtil;
 import com.google.gson.GsonBuilder;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 模拟各种各样匪夷所思的工具类

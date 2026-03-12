@@ -4,7 +4,7 @@ import org.springframework.util.StringUtils;
 
 import com.github.east196.ezsb.Context;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 

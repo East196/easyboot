@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.collections.iterators.ArrayIterator;
+import java.util.Arrays;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.HTable;
@@ -35,7 +35,7 @@ public class Ingest {
     "lon", "lat", "id", "name", "address",
     "city", "url", "phone", "type", "zip"
   };
-  private static final ArrayIterator COLS = new ArrayIterator(COLUMNS);
+  private static final Iterator<String> COLS = Arrays.asList(COLUMNS).iterator();
   private static final Splitter SPLITTER = Splitter.on('\t')
     .trimResults()
     .limit(COLUMNS.length);

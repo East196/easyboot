@@ -29,8 +29,11 @@ public class DictSelectUtil {
 
 
     public  static String filterMultiDictText(List<SysDictItem> dictOptions, String dictItemValues){
-        List<String> itemValues = Arrays.<String>asList(dictItemValues.split(","));
-        return dictOptions.stream().filter(sysDictItem -> itemValues.contains(sysDictItem.getItemValue())).map(sysDictItem -> sysDictItem.getItemText()).collect(Collectors.joining(""));
+        List<String> itemValues = Arrays.asList(dictItemValues.split(","));
+        return dictOptions.stream()
+            .filter(sysDictItem -> itemValues.contains(sysDictItem.getItemValue()))
+            .map(sysDictItem -> sysDictItem.getItemText())
+            .collect(Collectors.joining(", "));
     }
 
     public static void main(String[] args) throws IOException {

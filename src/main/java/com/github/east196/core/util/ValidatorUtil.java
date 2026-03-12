@@ -3,9 +3,9 @@
 package com.github.east196.core.util;
 
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 
 import com.github.east196.ezsb.core.BootException;
 

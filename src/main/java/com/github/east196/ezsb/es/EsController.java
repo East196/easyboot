@@ -13,8 +13,8 @@ import com.google.gson.Gson;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-@Api(description = "Elasticsearch信息接口")
+@Tag(name = "Elasticsearch信息接口")
 @RequestMapping("/xboot/es")
 @Transactional
 public class EsController {
@@ -32,7 +32,7 @@ public class EsController {
     private String ES_NODE_CLIENT;
 
     @RequestMapping(value = "/info",method = RequestMethod.GET)
-    @ApiOperation(value = "获取es状态")
+    @Operation(summary = "获取es状态")
     public Result<EsInfo> getAllByPage(){
 
         String healthUrl="http://"+ES_NODE_CLIENT+"/_cluster/health";

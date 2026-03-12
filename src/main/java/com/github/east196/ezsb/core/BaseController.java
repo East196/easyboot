@@ -6,7 +6,7 @@ import com.github.east196.core.api.ResultUtil;
 import com.github.east196.core.vo.PageVo;
 import com.github.east196.ezsb.mybatis.PageUtil;
 
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ public abstract class BaseController<E, ID extends Serializable> {
 
     @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "通过id获取")
+    @Operation(summary = "通过id获取")
     public Result<E> get(@PathVariable ID id){
 
         E entity = getService().get(id);
@@ -37,7 +37,7 @@ public abstract class BaseController<E, ID extends Serializable> {
 
     @RequestMapping(value = "/getAll",method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "获取全部数据")
+    @Operation(summary = "获取全部数据")
     public Result<List<E>> getAll(){
 
         List<E> list = getService().getAll();
@@ -46,7 +46,7 @@ public abstract class BaseController<E, ID extends Serializable> {
 
     @RequestMapping(value = "/getByPage",method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "分页获取")
+    @Operation(summary = "分页获取")
     public Result<Page<E>> getByPage(@ModelAttribute PageVo page){
 
         Page<E> data = getService().findAll(PageUtil.initPage(page));
@@ -55,7 +55,7 @@ public abstract class BaseController<E, ID extends Serializable> {
 
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     @ResponseBody
-    @ApiOperation(value = "保存数据")
+    @Operation(summary = "保存数据")
     public Result<E> save(@ModelAttribute E entity){
 
         E e = getService().save(entity);
@@ -64,7 +64,7 @@ public abstract class BaseController<E, ID extends Serializable> {
 
     @RequestMapping(value = "/update",method = RequestMethod.PUT)
     @ResponseBody
-    @ApiOperation(value = "更新数据")
+    @Operation(summary = "更新数据")
     public Result<E> update(@ModelAttribute E entity){
 
         E e = getService().update(entity);
@@ -73,7 +73,7 @@ public abstract class BaseController<E, ID extends Serializable> {
 
     @RequestMapping(value = "/delByIds/{ids}",method = RequestMethod.DELETE)
     @ResponseBody
-    @ApiOperation(value = "批量通过id删除")
+    @Operation(summary = "批量通过id删除")
     public Result<Object> delAllByIds(@PathVariable ID[] ids){
 
         for(ID id:ids){

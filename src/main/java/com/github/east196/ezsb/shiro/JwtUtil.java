@@ -12,8 +12,8 @@ import com.github.east196.ezsb.mybatis.LoginUser;
 import com.google.common.base.Joiner;
 
 import java.util.Date;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 
