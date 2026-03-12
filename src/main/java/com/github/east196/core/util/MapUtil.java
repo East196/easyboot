@@ -3,7 +3,9 @@ package com.github.east196.core.util;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -15,8 +17,9 @@ import java.util.Map;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.compile;
 
-@Slf4j
 public class MapUtil {
+    
+    private static final Logger log = LoggerFactory.getLogger(MapUtil.class);
     private static String key = "44d60a7dc6022d6d06a0a9bd9358b053";
 
 

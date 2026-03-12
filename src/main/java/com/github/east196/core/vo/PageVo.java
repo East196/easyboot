@@ -20,4 +20,20 @@ public class PageVo {
 
     @Schema(description = "排序方式 asc/desc")
     private String order;
+    
+    public int getPageNumber() {
+        return pageNumber;
+    }
+    
+    public int getPageSize() {
+        return pageSize;
+    }
+    
+    public String getSort() {
+        return sort;
+    }
+    
+    public String getOrder() {
+        return order;
+    }
 }

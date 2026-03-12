@@ -1,13 +1,15 @@
 package com.github.east196.core.util;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 原作者 zzxadi https://github.com/zzxadi/Snowflake-IdWorker
  * @author east196
  */
-@Slf4j
 public class SnowFlakeUtil {
+    
+    private static final Logger log = LoggerFactory.getLogger(SnowFlakeUtil.class);
 
     private final long id;
     /**

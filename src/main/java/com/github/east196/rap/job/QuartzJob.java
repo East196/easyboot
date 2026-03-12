@@ -37,4 +37,28 @@ public class QuartzJob extends BaseEntity {
 
     @Schema(description = "状态 0正常 -1停止")
     private Integer status = CommonConstant.STATUS_NORMAL;
+    
+    public String getJobClassName() {
+        return jobClassName;
+    }
+    
+    public String getCronExpression() {
+        return cronExpression;
+    }
+    
+    public String getParameter() {
+        return parameter;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public Integer getStatus() {
+        return status;
+    }
+    
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 }

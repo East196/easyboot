@@ -1,6 +1,5 @@
 package com.github.east196.rap.job;
 
-
 import java.util.List;
 
 import org.quartz.CronScheduleBuilder;
@@ -13,6 +12,8 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,17 +32,17 @@ import com.github.east196.ezsb.mybatis.PageUtil;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Exrick
  */
-@Slf4j
 @RestController
 @Tag(name = "定时任务管理接口")
 @RequestMapping("/xboot/quartzJob")
 @Transactional
 public class QuartzJobController {
+    
+    private static final Logger log = LoggerFactory.getLogger(QuartzJobController.class);
 
     @Autowired
     private QuartzJobService quartzJobService;
@@ -52,7 +53,6 @@ public class QuartzJobController {
     @RequestMapping(value = "/getAllByPage",method = RequestMethod.GET)
     @Operation(summary = "获取所有定时任务")
     public Result<Page<QuartzJob>> getAll(@ModelAttribute PageVo page){
-
         Page<QuartzJob> data = quartzJobService.findAll(PageUtil.initPage(page));
         return new ResultUtil<Page<QuartzJob>>().setData(data);
     }
@@ -60,7 +60,6 @@ public class QuartzJobController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @Operation(summary = "添加定时任务")
     public Result<Object> addJob(@ModelAttribute QuartzJob job){
-
         List<QuartzJob> list = quartzJobService.findByJobClassName(job.getJobClassName());
         if(list!=null&&list.size()>0){
             return new ResultUtil<Object>().setErrorMsg("该定时任务类名已存在");
@@ -73,7 +72,6 @@ public class QuartzJobController {
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
     @Operation(summary = "更新定时任务")
     public Result<Object> editJob(@ModelAttribute QuartzJob job){
-
         delete(job.getJobClassName());
         add(job.getJobClassName(),job.getCronExpression(),job.getParameter());
         job.setStatus(CommonConstant.STATUS_NORMAL);
@@ -84,7 +82,6 @@ public class QuartzJobController {
     @RequestMapping(value = "/pause",method = RequestMethod.POST)
     @Operation(summary = "暂停定时任务")
     public Result<Object> pauseJob(@ModelAttribute QuartzJob job){
-
         try {
             scheduler.pauseJob(JobKey.jobKey(job.getJobClassName()));
         } catch (SchedulerException e) {
@@ -98,7 +95,6 @@ public class QuartzJobController {
     @RequestMapping(value = "/resume",method = RequestMethod.POST)
     @Operation(summary = "恢复定时任务")
     public Result<Object> resumeJob(@ModelAttribute QuartzJob job){
-
         try {
             scheduler.resumeJob(JobKey.jobKey(job.getJobClassName()));
         } catch (SchedulerException e) {
@@ -112,7 +108,6 @@ public class QuartzJobController {
     @RequestMapping(value = "/delByIds/{ids}",method = RequestMethod.DELETE)
     @Operation(summary = "删除定时任务")
     public Result<Object> deleteJob(@PathVariable String[] ids){
-
         for(String id:ids){
             QuartzJob job = quartzJobService.get(id);
             delete(job.getJobClassName());
@@ -123,29 +118,17 @@ public class QuartzJobController {
 
     /**
      * 添加定时任务
-     * @param jobClassName
-     * @param cronExpression
-     * @param parameter
      */
     public void add(String jobClassName, String cronExpression, String parameter){
-
         try {
-            // 启动调度器
             scheduler.start();
-
-            //构建job信息
             JobDetail jobDetail = JobBuilder.newJob(getClass(jobClassName).getClass())
                     .withIdentity(jobClassName)
                     .usingJobData("parameter",parameter)
                     .build();
-
-            //表达式调度构建器(即任务执行的时间) 使用withMisfireHandlingInstructionDoNothing() 忽略掉调度暂停过程中没有执行的调度
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression).withMisfireHandlingInstructionDoNothing();
-
-            //按新的cronExpression表达式构建一个新的trigger
             CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(jobClassName)
                     .withSchedule(scheduleBuilder).build();
-
             scheduler.scheduleJob(jobDetail, trigger);
         } catch (SchedulerException e) {
             log.error(e.toString());
@@ -157,10 +140,8 @@ public class QuartzJobController {
 
     /**
      * 删除定时任务
-     * @param jobClassName
      */
     public void delete(String jobClassName){
-
         try {
             scheduler.pauseTrigger(TriggerKey.triggerKey(jobClassName));
             scheduler.unscheduleJob(TriggerKey.triggerKey(jobClassName));
@@ -174,5 +155,4 @@ public class QuartzJobController {
         Class<?> class1 = Class.forName(classname);
         return (Job)class1.newInstance();
     }
-
 }

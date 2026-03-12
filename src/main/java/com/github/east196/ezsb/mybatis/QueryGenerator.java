@@ -10,7 +10,8 @@ import com.github.east196.ezsb.shiro.DataAutorUtils;
 import com.github.east196.ezsb.shiro.JwtUtil;
 import com.github.east196.ezsb.shiro.SysPermissionDataRule;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.NumberUtils;
 
 import java.beans.PropertyDescriptor;
@@ -24,8 +25,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 //TODO 通过继承层次绑定业务
-@Slf4j
 public class QueryGenerator {
+    
+    private static final Logger log = LoggerFactory.getLogger(QueryGenerator.class);
 
     public static final String SQL_RULES_COLUMN = "SQL_RULES_COLUMN";
 
@@ -146,11 +148,10 @@ public class QueryGenerator {
                     final String field = Glue.camelToUnderline(name);
                     if (vals.length > 1) {
                         queryWrapper.and(j -> {
-                            j = j.like(field, vals[0]);
+                            j.like(field, vals[0]);
                             for (int k = 1; k < vals.length; k++) {
-                                j = j.or().like(field, vals[k]);
+                                j.or().like(field, vals[k]);
                             }
-                            return j;
                         });
                     } else {
                         queryWrapper.and(j -> j.like(field, vals[0]));

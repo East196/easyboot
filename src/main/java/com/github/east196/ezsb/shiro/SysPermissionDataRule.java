@@ -75,4 +75,20 @@ public class SysPermissionDataRule implements Serializable {
 	 * 修改人
 	 */
 	private String updateBy;
+	
+	public String getRuleColumn() {
+		return ruleColumn;
+	}
+	
+	public String getRuleConditions() {
+		return ruleConditions;
+	}
+	
+	public String getRuleValue() {
+		return ruleValue;
+	}
+	
+	public String getId() {
+		return id;
+	}
 }

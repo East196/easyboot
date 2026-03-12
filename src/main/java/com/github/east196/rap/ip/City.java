@@ -8,9 +8,21 @@ import lombok.Data;
 @Data
 public class City{
 
-    String country;
+    private String country;
 
-    String province;
+    private String province;
 
-    String city;
+    private String city;
+    
+    public String getCountry() {
+        return country;
+    }
+    
+    public String getProvince() {
+        return province;
+    }
+    
+    public String getCity() {
+        return city;
+    }
 }

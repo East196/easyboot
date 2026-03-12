@@ -8,14 +8,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.github.east196.core.api.Result;
 import com.github.east196.core.api.ResultUtil;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author east196
  */
-@Slf4j
 @RestControllerAdvice
 public class RestCtrlExceptionHandler {
+    
+    private static final Logger log = LoggerFactory.getLogger(RestCtrlExceptionHandler.class);
 
     @ExceptionHandler(BootException.class)
     @ResponseStatus(value = HttpStatus.OK)

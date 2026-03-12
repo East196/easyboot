@@ -1,14 +1,16 @@
 package com.github.east196.ezsb.mybatis;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * sql注入处理工具类
  * 
  * @author zhoujf
  */
-@Slf4j
 public class SqlInjectionUtil {
+    
+    private static final Logger log = LoggerFactory.getLogger(SqlInjectionUtil.class);
 	final static String xssStr = "'|and |exec |insert |select |delete |update |drop |count |chr |mid |master |truncate |char |declare |;|or |+|,";
 
 	/**

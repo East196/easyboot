@@ -1,13 +1,14 @@
 package com.github.east196.core.util;
 
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import cn.hutool.core.util.StrUtil;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
 /**
@@ -16,17 +17,17 @@ import java.util.Date;
  * @author east196
  */
 public class DateUtil {
-	/** 时间格式(yyyy-MM-dd) */
-	public final static String DATE_PATTERN = "yyyy-MM-dd";
-	/** 时间格式(yyyy-MM-dd HH:mm:ss) */
-	public final static String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    /** 时间格式(yyyy-MM-dd) */
+    public final static String DATE_PATTERN = "yyyy-MM-dd";
+    /** 时间格式(yyyy-MM-dd HH:mm:ss) */
+    public final static String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * 日期格式化 日期格式为：yyyy-MM-dd
      * @param date  日期
      * @return  返回yyyy-MM-dd格式日期
      */
-	public static String format(Date date) {
+    public static String format(Date date) {
         return format(date, DATE_PATTERN);
     }
 
@@ -54,8 +55,23 @@ public class DateUtil {
             return null;
         }
 
-        DateTimeFormatter fmt = DateTimeFormat.forPattern(pattern);
-        return fmt.parseLocalDateTime(strDate).toDate();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern(pattern);
+        LocalDateTime localDateTime = LocalDateTime.parse(strDate, fmt);
+        return localDateTimeToDate(localDateTime);
+    }
+    
+    /**
+     * LocalDateTime 转 Date
+     */
+    public static Date localDateTimeToDate(LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+    
+    /**
+     * Date 转 LocalDateTime
+     */
+    public static LocalDateTime dateToLocalDateTime(Date date) {
+        return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
     /**
@@ -64,12 +80,10 @@ public class DateUtil {
      * @return  返回date[0]开始日期、date[1]结束日期
      */
     public static Date[] getWeekStartAndEnd(int week) {
-        DateTime dateTime = new DateTime();
-        LocalDate date = new LocalDate(dateTime.plusWeeks(week));
-
-        date = date.dayOfWeek().withMinimumValue();
-        Date beginDate = date.toDate();
-        Date endDate = date.plusDays(6).toDate();
+        LocalDate date = LocalDate.now().plusWeeks(week);
+        date = date.with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY));
+        Date beginDate = localDateTimeToDate(date.atStartOfDay());
+        Date endDate = localDateTimeToDate(date.plusDays(6).atTime(23, 59, 59));
         return new Date[]{beginDate, endDate};
     }
 
@@ -81,8 +95,8 @@ public class DateUtil {
      * @return 加/减几秒后的日期
      */
     public static Date addDateSeconds(Date date, int seconds) {
-        DateTime dateTime = new DateTime(date);
-        return dateTime.plusSeconds(seconds).toDate();
+        LocalDateTime localDateTime = dateToLocalDateTime(date).plusSeconds(seconds);
+        return localDateTimeToDate(localDateTime);
     }
 
     /**
@@ -93,8 +107,8 @@ public class DateUtil {
      * @return 加/减几分钟后的日期
      */
     public static Date addDateMinutes(Date date, int minutes) {
-        DateTime dateTime = new DateTime(date);
-        return dateTime.plusMinutes(minutes).toDate();
+        LocalDateTime localDateTime = dateToLocalDateTime(date).plusMinutes(minutes);
+        return localDateTimeToDate(localDateTime);
     }
 
     /**
@@ -105,8 +119,8 @@ public class DateUtil {
      * @return 加/减几小时后的日期
      */
     public static Date addDateHours(Date date, int hours) {
-        DateTime dateTime = new DateTime(date);
-        return dateTime.plusHours(hours).toDate();
+        LocalDateTime localDateTime = dateToLocalDateTime(date).plusHours(hours);
+        return localDateTimeToDate(localDateTime);
     }
 
     /**
@@ -117,8 +131,8 @@ public class DateUtil {
      * @return 加/减几天后的日期
      */
     public static Date addDateDays(Date date, int days) {
-        DateTime dateTime = new DateTime(date);
-        return dateTime.plusDays(days).toDate();
+        LocalDateTime localDateTime = dateToLocalDateTime(date).plusDays(days);
+        return localDateTimeToDate(localDateTime);
     }
 
     /**
@@ -129,8 +143,8 @@ public class DateUtil {
      * @return 加/减几周后的日期
      */
     public static Date addDateWeeks(Date date, int weeks) {
-        DateTime dateTime = new DateTime(date);
-        return dateTime.plusWeeks(weeks).toDate();
+        LocalDateTime localDateTime = dateToLocalDateTime(date).plusWeeks(weeks);
+        return localDateTimeToDate(localDateTime);
     }
 
     /**
@@ -141,8 +155,8 @@ public class DateUtil {
      * @return 加/减几月后的日期
      */
     public static Date addDateMonths(Date date, int months) {
-        DateTime dateTime = new DateTime(date);
-        return dateTime.plusMonths(months).toDate();
+        LocalDateTime localDateTime = dateToLocalDateTime(date).plusMonths(months);
+        return localDateTimeToDate(localDateTime);
     }
 
     /**
@@ -153,7 +167,7 @@ public class DateUtil {
      * @return 加/减几年后的日期
      */
     public static Date addDateYears(Date date, int years) {
-        DateTime dateTime = new DateTime(date);
-        return dateTime.plusYears(years).toDate();
+        LocalDateTime localDateTime = dateToLocalDateTime(date).plusYears(years);
+        return localDateTimeToDate(localDateTime);
     }
 }

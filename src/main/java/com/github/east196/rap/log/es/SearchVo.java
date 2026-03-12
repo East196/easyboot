@@ -11,4 +11,12 @@ public class SearchVo  {
     private String startDate;
 
     private String endDate;
+    
+    public String getStartDate() {
+        return startDate;
+    }
+    
+    public String getEndDate() {
+        return endDate;
+    }
 }

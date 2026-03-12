@@ -51,6 +51,22 @@ public class Result<T> {
         this.code = code;
         this.result = result;
     }
+    
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+    
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+    
+    public void setResult(T result) {
+        this.result = result;
+    }
 
     public Result<T> error500(String message) {
         this.message = message;

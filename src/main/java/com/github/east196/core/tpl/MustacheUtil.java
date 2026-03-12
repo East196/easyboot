@@ -2,34 +2,31 @@ package com.github.east196.core.tpl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
-import lombok.SneakyThrows;
 
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * TODO: Mustache 依赖需要更新
+ */
 public class MustacheUtil {
 
-    @SneakyThrows
     public static String parseExpression(String template, ObjectNode objectNode) {
         HashMap<String, Object> scopes = toMap(objectNode);
         return parseExpression(template, scopes);
     }
 
-    @SneakyThrows
     public static String parseExpression(String template, HashMap<String, Object> scopes) {
-        Writer writer = new StringWriter();
-        MustacheFactory mf = new DefaultMustacheFactory();
-        Mustache mustache = mf.compile(new StringReader(template), "example");
-        mustache.execute(writer, scopes);
-        return writer.toString();
+        // TODO: Mustache 依赖需要更新
+        // 临时简单替换
+        String result = template;
+        for (String key : scopes.keySet()) {
+            result = result.replace("{{" + key + "}}", String.valueOf(scopes.get(key)));
+        }
+        return result;
     }
-
 
     public static HashMap<String, Object> toMap(ObjectNode objectNode) {
         HashMap<String, Object> scopes = new HashMap<>();

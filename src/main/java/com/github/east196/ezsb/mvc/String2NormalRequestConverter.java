@@ -1,6 +1,7 @@
 package com.github.east196.ezsb.mvc;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.Map;
@@ -10,8 +11,9 @@ import java.util.Map;
  *
  * @author Tung
  */
-@Slf4j
 public class String2NormalRequestConverter implements Converter<String, NormalRequest> {
+    
+    private static final Logger log = LoggerFactory.getLogger(String2NormalRequestConverter.class);
 
     @Override
     public NormalRequest convert(String source) {

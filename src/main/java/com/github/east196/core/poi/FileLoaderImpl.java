@@ -6,7 +6,8 @@ package com.github.east196.core.poi;
 
 import cn.afterturn.easypoi.cache.manager.IFileLoader;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.poi.util.IOUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -22,8 +23,10 @@ import java.net.URLConnection;
  * @author user
  * @date 2018/12/18
  */
-@Slf4j
+
 public class FileLoaderImpl implements IFileLoader {
+    
+    private static final Logger log = LoggerFactory.getLogger(FileLoaderImpl.class);
 
     @Override
     public byte[] getFile(String url) {

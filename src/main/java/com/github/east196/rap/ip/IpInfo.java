@@ -8,7 +8,15 @@ import lombok.Data;
 @Data
 public class IpInfo {
 
-    String url;
+    private String url;
 
-    String p;
+    private String p;
+    
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    
+    public void setP(String p) {
+        this.p = p;
+    }
 }

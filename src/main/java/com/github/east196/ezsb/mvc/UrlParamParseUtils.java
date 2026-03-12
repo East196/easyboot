@@ -1,6 +1,7 @@
 package com.github.east196.ezsb.mvc;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -13,8 +14,9 @@ import java.util.Map;
  * @author lzl
  *
  */
-@Slf4j
 public class UrlParamParseUtils {
+    
+    private static final Logger log = LoggerFactory.getLogger(UrlParamParseUtils.class);
 
 	/****
 	 * 

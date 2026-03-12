@@ -52,12 +52,47 @@ public class Log extends BaseEntity {
     @Schema(description = "花费时间")
     private Integer costTime;
 
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setLogType(Integer logType) {
+        this.logType = logType;
+    }
+    
+    public void setRequestUrl(String requestUrl) {
+        this.requestUrl = requestUrl;
+    }
+    
+    public void setRequestType(String requestType) {
+        this.requestType = requestType;
+    }
+    
+    public void setRequestParam(String requestParam) {
+        this.requestParam = requestParam;
+    }
+    
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+    
+    public void setIpInfo(String ipInfo) {
+        this.ipInfo = ipInfo;
+    }
+    
+    public void setCostTime(Integer costTime) {
+        this.costTime = costTime;
+    }
+
     /**
      * 转换请求参数为Json
      * @param paramMap
      */
     public void setMapToParams(Map<String, String[]> paramMap) {
-
         this.requestParam = Glue.mapToString(paramMap);
     }
 
