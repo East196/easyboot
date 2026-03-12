@@ -29,6 +29,14 @@ public class SysDictItem{
      * 字典项值
      */
     private String itemValue;
+    
+    public String getItemValue() {
+        return itemValue;
+    }
+    
+    public String getItemText() {
+        return itemText;
+    }
 
     /**
      * 描述

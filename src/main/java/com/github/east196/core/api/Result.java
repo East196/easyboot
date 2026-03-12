@@ -67,6 +67,10 @@ public class Result<T> {
     public void setResult(T result) {
         this.result = result;
     }
+    
+    public T getResult() {
+        return result;
+    }
 
     public Result<T> error500(String message) {
         this.message = message;

@@ -9,4 +9,8 @@ import lombok.Data;
 public class EsCount  {
 
     private Integer count;
+    
+    public Integer getCount() {
+        return count;
+    }
 }

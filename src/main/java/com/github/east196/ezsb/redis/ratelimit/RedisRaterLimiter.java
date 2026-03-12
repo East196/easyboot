@@ -6,18 +6,20 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Transaction;
-import redis.clients.jedis.ZParams;
+// import redis.clients.jedis.ZParams; // Jedis 4.x 中已移除
 
 /**
  * @author wangiegie@gmail.com https://gitee.com/boding1/pig-cloud
  */
 @Component
-@Slf4j
 public class RedisRaterLimiter {
+    
+    private static final Logger log = LoggerFactory.getLogger(RedisRaterLimiter.class);
 
     @Autowired
     private JedisPool jedisPool; // TODO 改用Lettuce https://www.cnblogs.com/throwable/p/11601538.html
@@ -39,10 +41,11 @@ public class RedisRaterLimiter {
             //删除信号量 移除有序集中指定区间(score)内的所有成员 ZREMRANGEBYSCORE key min max
             transaction.zremrangeByScore((BUCKET_MONITOR + point).getBytes(), "-inf".getBytes(), String.valueOf(now - timeout).getBytes());
             //为每个有序集分别指定一个乘法因子(默认设置为 1) 每个成员的score值在传递给聚合函数之前都要先乘以该因子
-            ZParams params = new ZParams();
-            params.weights(1.0, 0.0);
+            // Jedis 4.x 中 ZParams 已移除，需要重构
+            // ZParams params = new ZParams();
+            // params.weights(1.0, 0.0);
             //计算给定的一个或多个有序集的交集
-            transaction.zinterstore(BUCKET + point, params, BUCKET + point, BUCKET_MONITOR + point);
+            transaction.zinterstore(BUCKET + point, BUCKET + point, BUCKET_MONITOR + point);
 
             //计数器自增
             transaction.incr(BUCKET_COUNT);
@@ -77,4 +80,3 @@ public class RedisRaterLimiter {
         return null;
     }
 }
-

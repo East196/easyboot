@@ -15,4 +15,8 @@ public class EsInfo {
     private String number_of_nodes;
 
     private Integer count;
+    
+    public void setCount(Integer count) {
+        this.count = count;
+    }
 }

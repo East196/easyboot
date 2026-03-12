@@ -14,4 +14,8 @@ public class Captcha {
 
     @Schema(description = "验证码")
     private String code;
+    
+    public void setCaptchaId(String captchaId) {
+        this.captchaId = captchaId;
+    }
 }

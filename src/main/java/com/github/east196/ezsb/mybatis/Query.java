@@ -55,17 +55,17 @@ public class Query<T> {
         //前端字段排序
         if(StrUtil.isNotEmpty(orderField) && StrUtil.isNotEmpty(order)){
             if(Constant.ASC.equalsIgnoreCase(order)) {
-                return page.setAsc(orderField);
+                page.addOrder(com.baomidou.mybatisplus.core.metadata.OrderItem.asc(orderField));
             }else {
-                return page.setDesc(orderField);
+                page.addOrder(com.baomidou.mybatisplus.core.metadata.OrderItem.desc(orderField));
             }
         }
 
         //默认排序
         if(isAsc) {
-            page.setAsc(defaultOrderField);
+            page.addOrder(com.baomidou.mybatisplus.core.metadata.OrderItem.asc(defaultOrderField));
         }else {
-            page.setDesc(defaultOrderField);
+            page.addOrder(com.baomidou.mybatisplus.core.metadata.OrderItem.desc(defaultOrderField));
         }
 
         return page;

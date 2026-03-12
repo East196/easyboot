@@ -11,7 +11,7 @@ import com.github.east196.core.api.Result;
 import com.github.east196.core.api.TableResult;
 import com.github.east196.core.boon.Boon;
 
-import lombok.extern.slf4j.Slf4j;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -36,9 +36,9 @@ import java.util.List;
  */
 @Aspect
 @Component
-@Slf4j
 public class DictAspect {
-    private static final Logger logger = LoggerFactory.getLogger(DictAspect.class);
+    
+    private static final Logger log = LoggerFactory.getLogger(DictAspect.class);
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -136,7 +136,7 @@ public class DictAspect {
             //解决@JsonFormat注解解析不了的问题详见SysAnnouncement类的@JsonFormat
             json = mapper.writeValueAsString(record);
         } catch (JsonProcessingException e) {
-            logger.error("json解析失败" + e.getMessage());
+            log.error("json解析失败" + e.getMessage());
             log.error(record+"_" + e.getMessage(),e);
             e.printStackTrace();
         }

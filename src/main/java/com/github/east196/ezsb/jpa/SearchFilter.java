@@ -57,7 +57,7 @@ public class SearchFilter {
 			final Object value = entry.getValue();
 			boolean _isNotBlank = StrUtil.isNotBlank(((String) value));
 			if (_isNotBlank) {
-				final String[] names = StrUtil.split(key, "_");
+				final String[] names = key.split("_");
 				int _length = names.length;
 				boolean _notEquals = (_length != 2);
 				if (_notEquals) {
@@ -102,7 +102,7 @@ public class SearchFilter {
 					String value = _value[0];
 					boolean _isNotBlank = StrUtil.isNotBlank(value);
 					if (_isNotBlank) {
-						final String[] names = StrUtil.split(key, "_");
+						final String[] names = key.split("_");
 						int _length = names.length;
 						boolean _notEquals = (_length != 2);
 						if (_notEquals) {
@@ -176,7 +176,7 @@ public class SearchFilter {
 					String value = entry.getValue();
 					boolean _isNotBlank = StrUtil.isNotBlank(value);
 					if (_isNotBlank) {
-						final String[] names = StrUtil.split(key, "_");
+						final String[] names = key.split("_");
 						int _length = names.length;
 						boolean _notEquals = (_length != 2);
 						if (_notEquals) {

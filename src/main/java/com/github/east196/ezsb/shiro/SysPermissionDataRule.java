@@ -2,6 +2,7 @@ package com.github.east196.ezsb.shiro;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -28,7 +29,7 @@ public class SysPermissionDataRule implements Serializable {
 	/**
 	 * id
 	 */
-	@TableId(type = IdType.UUID)
+	@TableId(type = IdType.ASSIGN_UUID)
 	private String id;
 	
 	/**

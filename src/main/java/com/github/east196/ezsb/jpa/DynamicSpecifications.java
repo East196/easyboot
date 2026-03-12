@@ -33,7 +33,7 @@ public class DynamicSpecifications {
                     for (SearchFilter filter : filters) {
                         // nested path translate, 如Task的名为"user.name"的filedName,
                         // 转换为Task.user.name属性
-                        String[] names = StrUtil.split(filter.fieldName, ".");
+                        String[] names = filter.fieldName.split("\\.");
                         Path expression = root.get(names[0]);
                         for (int i = 1; i < names.length; i++) {
                             expression = expression.get(names[i]);

@@ -32,7 +32,7 @@ public class DictSelectUtil {
         List<String> itemValues = Arrays.asList(dictItemValues.split(","));
         return dictOptions.stream()
             .filter(sysDictItem -> itemValues.contains(sysDictItem.getItemValue()))
-            .map(sysDictItem -> sysDictItem.getItemText())
+            .map(sysDictItem -> (String) sysDictItem.getItemText())
             .collect(Collectors.joining(", "));
     }
 

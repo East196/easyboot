@@ -1,12 +1,11 @@
 package com.github.east196.rap.sms;
 
-
-
-import org.springframework.cloud.openfeign.EnableFeignClients;
+// TODO: Spring Cloud OpenFeign 需要单独引入，暂时禁用
+// import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableFeignClients
+// @EnableFeignClients
 public class CloudConfiguration {
 
 }
