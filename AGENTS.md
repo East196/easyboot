@@ -65,7 +65,7 @@ java -jar target/easyboot.jar
 ```
 
 ## NOTES
-- Java 17 + Spring Boot 3.2.0
+- Java 17 + Spring Boot 3.5.11
 - 数据库默认 H2 (runtime scope)，生产需切换
 - Actuator 暴露所有端点 (`management.endpoints.web.exposure.include=*`)
 - 动态数据源支持: `dynamic-datasource-spring-boot-starter`
